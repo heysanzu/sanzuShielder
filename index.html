@@ -6,38 +6,40 @@
   <title>SHIELDER</title>
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/heysanzu/sanzu/main/sanzu.png" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
 
-  <!-- Login Screen -->
-  <div id="login-screen" class="login-screen">
-    <div class="login-box">
+  <!-- ══ LOGIN ══ -->
+  <div id="login-screen">
+    <div id="login-box">
       <div class="login-logo">
         <i data-lucide="shield"></i>
         <h1>SHIELDER</h1>
       </div>
       <p class="login-sub">Attendance Management System</p>
+
       <div class="input-group">
         <i data-lucide="hash"></i>
-        <input type="text" id="student-id-input" placeholder="Enter your student number (e.g. 01)" maxlength="3" />
+        <input type="text" id="student-id-input"
+          placeholder="Student number — e.g. 01, 02 …" maxlength="3" />
       </div>
+
       <button id="login-btn" class="btn-primary">
         <i data-lucide="log-in"></i> Enter
       </button>
-      <p class="login-hint">Each student has a unique number assigned by admin.</p>
+      <p class="login-hint">Each student has a unique number. Try 01 – 05.</p>
     </div>
     <a href="https://github.com/heysanzu" target="_blank" class="github-link">
       <i data-lucide="github"></i> @heysanzu
     </a>
   </div>
 
-  <!-- Main App -->
-  <div id="app" class="app hidden">
+  <!-- ══ APP ══ -->
+  <div id="app" style="display:none">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <i data-lucide="shield" class="sidebar-icon"></i>
         <span class="sidebar-title">SHIELDER</span>
@@ -81,7 +83,7 @@
       </div>
     </aside>
 
-    <!-- Mobile Topbar -->
+    <!-- Mobile topbar -->
     <header class="topbar">
       <button id="menu-toggle" class="menu-toggle">
         <i data-lucide="menu"></i>
@@ -90,19 +92,16 @@
         <i data-lucide="shield"></i>
         <span>SHIELDER</span>
       </div>
-      <div class="topbar-right">
-        <span id="topbar-student-id" class="topbar-id">--</span>
-      </div>
+      <span id="topbar-student-id" class="topbar-id">--</span>
     </header>
 
-    <!-- Mobile Overlay -->
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-    <!-- Main Content -->
+    <!-- Main content -->
     <main class="main-content">
 
-      <!-- ── DASHBOARD ── -->
-      <section id="section-dashboard" class="section active">
+      <!-- DASHBOARD -->
+      <section id="section-dashboard" class="section" style="display:block">
         <div class="section-header">
           <h2>Dashboard</h2>
           <span id="current-date-display" class="date-chip"></span>
@@ -134,7 +133,7 @@
             <i data-lucide="star"></i>
             <div>
               <span class="stat-num" id="stat-rank">--</span>
-              <span class="stat-label">Rank</span>
+              <span class="stat-label">Class Rank</span>
             </div>
           </div>
         </div>
@@ -145,18 +144,19 @@
               <h3>Upcoming</h3>
               <i data-lucide="bell"></i>
             </div>
-            <ul class="upcoming-list" id="upcoming-list">
-              <li><i data-lucide="calendar"></i> Unit Test — 12 Jul</li>
-              <li><i data-lucide="calendar"></i> Holiday — 15 Jul (Independence)</li>
-              <li><i data-lucide="calendar"></i> Parent Meeting — 20 Jul</li>
+            <ul class="upcoming-list">
+              <li><i data-lucide="calendar"></i> Unit Test &mdash; 12 Jul</li>
+              <li><i data-lucide="calendar"></i> Holiday &mdash; 15 Jul (Independence)</li>
+              <li><i data-lucide="calendar"></i> Parent Meeting &mdash; 20 Jul</li>
             </ul>
           </div>
+
           <div class="card">
             <div class="card-head">
               <h3>Fee Status</h3>
               <i data-lucide="receipt"></i>
             </div>
-            <div id="dash-fee-status" class="dash-fee-status">
+            <div id="dash-fee-status">
               <span class="fee-badge paid" id="dash-fee-badge">Paid</span>
               <p id="dash-fee-desc">Monthly fee cleared.</p>
             </div>
@@ -164,28 +164,28 @@
         </div>
       </section>
 
-      <!-- ── CALENDAR / ATTENDANCE ── -->
-      <section id="section-calendar" class="section hidden">
+      <!-- CALENDAR -->
+      <section id="section-calendar" class="section" style="display:none">
         <div class="section-header">
           <h2>Attendance Calendar</h2>
           <div class="cal-nav">
             <button id="prev-month" class="icon-btn"><i data-lucide="chevron-left"></i></button>
-            <span id="cal-month-label">--</span>
+            <span id="cal-month-label">-- --</span>
             <button id="next-month" class="icon-btn"><i data-lucide="chevron-right"></i></button>
           </div>
         </div>
 
         <div class="legend">
-          <span class="legend-dot present"></span> Present
-          <span class="legend-dot absent"></span> Absent
-          <span class="legend-dot sunday"></span> Sunday
-          <span class="legend-dot holiday"></span> Holiday
+          <span><span class="legend-dot present"></span>Present</span>
+          <span><span class="legend-dot absent"></span>Absent</span>
+          <span><span class="legend-dot sunday"></span>Sunday</span>
+          <span><span class="legend-dot holiday"></span>Holiday</span>
         </div>
 
         <div class="calendar-grid" id="calendar-grid"></div>
 
-        <div class="month-summary card">
-          <h3>This Month</h3>
+        <div class="card month-summary">
+          <h3>Month Summary</h3>
           <div class="month-stats">
             <span><b id="ms-present">0</b> Present</span>
             <span><b id="ms-absent">0</b> Absent</span>
@@ -195,16 +195,16 @@
         </div>
       </section>
 
-      <!-- ── TEST RESULTS ── -->
-      <section id="section-results" class="section hidden">
+      <!-- TEST RESULTS -->
+      <section id="section-results" class="section" style="display:none">
         <div class="section-header">
           <h2>Test Results</h2>
         </div>
         <div class="results-list" id="results-list"></div>
       </section>
 
-      <!-- ── PERFORMANCE ── -->
-      <section id="section-performance" class="section hidden">
+      <!-- PERFORMANCE -->
+      <section id="section-performance" class="section" style="display:none">
         <div class="section-header">
           <h2>Performance</h2>
         </div>
@@ -215,8 +215,7 @@
               <svg class="perf-ring" viewBox="0 0 120 120">
                 <circle class="ring-bg" cx="60" cy="60" r="50"/>
                 <circle class="ring-fill" id="perf-ring-fill" cx="60" cy="60" r="50"
-                  stroke-dasharray="314.16"
-                  stroke-dashoffset="314.16"/>
+                  stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
               </svg>
               <div class="ring-label">
                 <span id="perf-ring-percent">--%</span>
@@ -226,30 +225,30 @@
             <p class="perf-grade" id="perf-grade">--</p>
           </div>
           <div class="card">
-            <h3>Subject Breakdown</h3>
+            <h3 style="font-size:0.9rem;font-weight:600;margin-bottom:14px">Subject Breakdown</h3>
             <div class="subject-bars" id="subject-bars"></div>
           </div>
         </div>
       </section>
 
-      <!-- ── LEADERBOARD ── -->
-      <section id="section-leaderboard" class="section hidden">
+      <!-- LEADERBOARD -->
+      <section id="section-leaderboard" class="section" style="display:none">
         <div class="section-header">
           <h2>Leaderboard</h2>
         </div>
         <div class="leaderboard-wrap" id="leaderboard-wrap"></div>
       </section>
 
-      <!-- ── FEES ── -->
-      <section id="section-fees" class="section hidden">
+      <!-- FEES -->
+      <section id="section-fees" class="section" style="display:none">
         <div class="section-header">
           <h2>Fee Details</h2>
         </div>
         <div class="fees-grid" id="fees-grid"></div>
       </section>
 
-      <!-- ── CHAT / AI SUPPORT ── -->
-      <section id="section-chat" class="section hidden">
+      <!-- CHAT -->
+      <section id="section-chat" class="section" style="display:none">
         <div class="section-header">
           <h2>AI Support</h2>
         </div>
@@ -273,7 +272,7 @@
   </div>
 
   <!-- Day Detail Popup -->
-  <div id="popup-overlay" class="popup-overlay hidden">
+  <div id="popup-overlay" class="popup-overlay" style="display:none">
     <div class="popup">
       <button class="popup-close" id="popup-close"><i data-lucide="x"></i></button>
       <h3 id="popup-date-title">--</h3>
