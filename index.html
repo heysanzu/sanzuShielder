@@ -17,18 +17,13 @@
         <i data-lucide="shield"></i>
         <h1>SHIELDER</h1>
       </div>
-      <p class="login-sub">Attendance Management System</p>
-
       <div class="input-group">
         <i data-lucide="hash"></i>
-        <input type="text" id="student-id-input"
-          placeholder="Student number — e.g. 01, 02 …" maxlength="3" />
+        <input type="text" id="student-id-input" placeholder="Enter your number…" maxlength="3" />
       </div>
-
       <button id="login-btn" class="btn-primary">
         <i data-lucide="log-in"></i> Enter
       </button>
-      <p class="login-hint">Each student has a unique number. Try 01 – 05.</p>
     </div>
     <a href="https://github.com/heysanzu" target="_blank" class="github-link">
       <i data-lucide="github"></i> @heysanzu
@@ -38,13 +33,12 @@
   <!-- ══ APP ══ -->
   <div id="app" style="display:none">
 
-    <!-- Sidebar -->
+    <!-- Sidebar (desktop) -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <i data-lucide="shield" class="sidebar-icon"></i>
         <span class="sidebar-title">SHIELDER</span>
       </div>
-
       <nav class="sidebar-nav">
         <button class="nav-btn active" data-section="dashboard">
           <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
@@ -68,7 +62,6 @@
           <i data-lucide="message-square"></i><span>AI Support</span>
         </button>
       </nav>
-
       <div class="sidebar-footer">
         <div class="student-badge">
           <i data-lucide="user-round"></i>
@@ -85,17 +78,17 @@
 
     <!-- Mobile topbar -->
     <header class="topbar">
-      <button id="menu-toggle" class="menu-toggle">
-        <i data-lucide="menu"></i>
-      </button>
       <div class="topbar-logo">
         <i data-lucide="shield"></i>
         <span>SHIELDER</span>
       </div>
-      <span id="topbar-student-id" class="topbar-id">--</span>
+      <div class="topbar-right">
+        <span id="topbar-student-id" class="topbar-id">--</span>
+        <button id="logout-btn-mobile" class="logout-btn" title="Logout">
+          <i data-lucide="log-out"></i>
+        </button>
+      </div>
     </header>
-
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
     <!-- Main content -->
     <main class="main-content">
@@ -103,7 +96,10 @@
       <!-- DASHBOARD -->
       <section id="section-dashboard" class="section" style="display:block">
         <div class="section-header">
-          <h2>Dashboard</h2>
+          <div>
+            <p class="greeting-line">Welcome back,</p>
+            <h2 class="greeting-name"><span id="greeting-name-typed"></span><span class="cursor">|</span></h2>
+          </div>
           <span id="current-date-display" class="date-chip"></span>
         </div>
 
@@ -145,12 +141,11 @@
               <i data-lucide="bell"></i>
             </div>
             <ul class="upcoming-list">
-              <li><i data-lucide="calendar"></i> Unit Test &mdash; 12 Jul</li>
-              <li><i data-lucide="calendar"></i> Holiday &mdash; 15 Jul (Independence)</li>
-              <li><i data-lucide="calendar"></i> Parent Meeting &mdash; 20 Jul</li>
+              <li><i data-lucide="calendar"></i> Unit Test &mdash; 12 Oct</li>
+              <li><i data-lucide="calendar"></i> Holiday &mdash; 20 Oct (Dussehra)</li>
+              <li><i data-lucide="calendar"></i> Parent Meeting &mdash; 28 Oct</li>
             </ul>
           </div>
-
           <div class="card">
             <div class="card-head">
               <h3>Fee Status</h3>
@@ -164,26 +159,23 @@
         </div>
       </section>
 
-      <!-- CALENDAR -->
+      <!-- ATTENDANCE CALENDAR -->
       <section id="section-calendar" class="section" style="display:none">
         <div class="section-header">
-          <h2>Attendance Calendar</h2>
+          <h2>Attendance</h2>
           <div class="cal-nav">
             <button id="prev-month" class="icon-btn"><i data-lucide="chevron-left"></i></button>
             <span id="cal-month-label">-- --</span>
             <button id="next-month" class="icon-btn"><i data-lucide="chevron-right"></i></button>
           </div>
         </div>
-
         <div class="legend">
           <span><span class="legend-dot present"></span>Present</span>
           <span><span class="legend-dot absent"></span>Absent</span>
           <span><span class="legend-dot sunday"></span>Sunday</span>
           <span><span class="legend-dot holiday"></span>Holiday</span>
         </div>
-
         <div class="calendar-grid" id="calendar-grid"></div>
-
         <div class="card month-summary">
           <h3>Month Summary</h3>
           <div class="month-stats">
@@ -197,23 +189,19 @@
 
       <!-- TEST RESULTS -->
       <section id="section-results" class="section" style="display:none">
-        <div class="section-header">
-          <h2>Test Results</h2>
-        </div>
+        <div class="section-header"><h2>Test Results</h2></div>
         <div class="results-list" id="results-list"></div>
       </section>
 
       <!-- PERFORMANCE -->
       <section id="section-performance" class="section" style="display:none">
-        <div class="section-header">
-          <h2>Performance</h2>
-        </div>
+        <div class="section-header"><h2>Performance</h2></div>
         <div class="performance-wrap">
           <div class="card perf-overview">
             <h3>Overall Standing</h3>
             <div class="perf-ring-wrap">
               <svg class="perf-ring" viewBox="0 0 120 120">
-                <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                <circle class="ring-bg"   cx="60" cy="60" r="50"/>
                 <circle class="ring-fill" id="perf-ring-fill" cx="60" cy="60" r="50"
                   stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
               </svg>
@@ -225,7 +213,7 @@
             <p class="perf-grade" id="perf-grade">--</p>
           </div>
           <div class="card">
-            <h3 style="font-size:0.9rem;font-weight:600;margin-bottom:14px">Subject Breakdown</h3>
+            <h3 style="font-size:.9rem;font-weight:600;margin-bottom:14px">Subject Breakdown</h3>
             <div class="subject-bars" id="subject-bars"></div>
           </div>
         </div>
@@ -233,25 +221,19 @@
 
       <!-- LEADERBOARD -->
       <section id="section-leaderboard" class="section" style="display:none">
-        <div class="section-header">
-          <h2>Leaderboard</h2>
-        </div>
+        <div class="section-header"><h2>Leaderboard</h2></div>
         <div class="leaderboard-wrap" id="leaderboard-wrap"></div>
       </section>
 
       <!-- FEES -->
       <section id="section-fees" class="section" style="display:none">
-        <div class="section-header">
-          <h2>Fee Details</h2>
-        </div>
+        <div class="section-header"><h2>Fee Details</h2></div>
         <div class="fees-grid" id="fees-grid"></div>
       </section>
 
-      <!-- CHAT -->
+      <!-- AI CHAT -->
       <section id="section-chat" class="section" style="display:none">
-        <div class="section-header">
-          <h2>AI Support</h2>
-        </div>
+        <div class="section-header"><h2>AI Support</h2></div>
         <div class="chat-wrap">
           <div class="chat-messages" id="chat-messages">
             <div class="chat-msg bot">
@@ -260,15 +242,50 @@
             </div>
           </div>
           <div class="chat-input-bar">
-            <input type="text" id="chat-input" placeholder="Ask something..." />
-            <button id="chat-send" class="btn-primary">
-              <i data-lucide="send"></i>
-            </button>
+            <input type="text" id="chat-input" placeholder="Ask something…" />
+            <button id="chat-send" class="btn-primary"><i data-lucide="send"></i></button>
           </div>
         </div>
       </section>
 
     </main>
+
+    <!-- Mobile bottom nav -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="bnav-btn active" data-section="dashboard">
+        <i data-lucide="layout-dashboard"></i><span>Home</span>
+      </button>
+      <button class="bnav-btn" data-section="calendar">
+        <i data-lucide="calendar-days"></i><span>Attendance</span>
+      </button>
+      <button class="bnav-btn" data-section="results">
+        <i data-lucide="file-bar-chart-2"></i><span>Results</span>
+      </button>
+      <button class="bnav-btn" data-section="leaderboard">
+        <i data-lucide="trophy"></i><span>Rank</span>
+      </button>
+      <button class="bnav-btn" data-section="chat">
+        <i data-lucide="message-square"></i><span>AI</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Notice Popup -->
+  <div id="notice-overlay" class="popup-overlay" style="display:none">
+    <div class="popup notice-popup">
+      <div class="notice-icon"><i data-lucide="megaphone"></i></div>
+      <h3>Notice Board</h3>
+      <ul class="notice-list">
+        <li><i data-lucide="circle-dot"></i> Unit test scheduled for <b>12 October</b>. Syllabus: all chapters covered till September.</li>
+        <li><i data-lucide="circle-dot"></i> <b>Dussehra holiday</b> on 20 October. Classes resume 21 Oct.</li>
+        <li><i data-lucide="circle-dot"></i> September fee due by <b>5 October</b>. Pay on time to avoid late charges.</li>
+        <li><i data-lucide="circle-dot"></i> Parent-teacher meeting on <b>28 October</b> at 10 AM.</li>
+      </ul>
+      <button id="notice-close" class="btn-primary" style="margin-top:8px">
+        <i data-lucide="check"></i> Got it
+      </button>
+    </div>
   </div>
 
   <!-- Day Detail Popup -->
