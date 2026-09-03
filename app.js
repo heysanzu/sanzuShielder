@@ -1,129 +1,13 @@
-/* ── SHIELDER — app.js ── */
-
-/* ── Holidays 2026 ── */
-const HOLIDAYS = {
-  "2026-01-26": "Republic Day",
-  "2026-03-25": "Holi",
-  "2026-04-14": "Dr. Ambedkar Jayanti",
-  "2026-05-01": "Labour Day",
-  "2026-06-17": "Eid ul-Adha",
-  "2026-08-15": "Independence Day",
-  "2026-10-02": "Gandhi Jayanti",
-  "2026-10-20": "Dussehra",
-  "2026-11-04": "Diwali",
-  "2026-11-05": "Diwali Holiday",
-  "2026-12-25": "Christmas",
-};
-
-/* ── Subjects ── */
-const SUBJECTS = ["Math", "English", "Science", "Social Studies", "Hindi", "Computer"];
-
-/* ── Seeded RNG ── */
-function seededRng(seed) {
-  let s = seed;
-  return () => { s = (s * 1664525 + 1013904223) & 0xffffffff; return (s >>> 0) / 0xffffffff; };
-}
-
-/* ── Attendance generator ── */
-function generateAttendance(monthStr, seed) {
-  const [yr, mo] = monthStr.split("-").map(Number);
-  const days = new Date(yr, mo, 0).getDate();
-  const rng  = seededRng(seed + yr * 100 + mo);
-  const map  = {};
-  for (let d = 1; d <= days; d++) {
-    const ds  = yr + "-" + String(mo).padStart(2,"0") + "-" + String(d).padStart(2,"0");
-    const dow = new Date(ds).getDay();
-    if (dow === 0)    { map[ds] = "sunday";  continue; }
-    if (HOLIDAYS[ds]) { map[ds] = "holiday"; continue; }
-    map[ds] = rng() > 0.15 ? "present" : "absent";
-  }
-  return map;
-}
-
-function fullAttendance(seed) {
-  const months = [
-    "2026-01","2026-02","2026-03","2026-04","2026-05","2026-06",
-    "2026-07","2026-08","2026-09","2026-10","2026-11","2026-12"
-  ];
-  let map = {};
-  months.forEach(m => Object.assign(map, generateAttendance(m, seed)));
-  return map;
-}
-
-/* ── Score sets (6 subjects each, out of 50) ── */
-const SCORE_SETS = [
-  [42, 38, 40, 35, 44, 45],
-  [48, 46, 49, 44, 47, 50],
-  [30, 27, 32, 28, 25, 33],
-  [38, 40, 37, 42, 39, 36],
-  [24, 22, 27, 23, 20, 28],
-  [44, 46, 42, 45, 43, 47],
-  [35, 33, 36, 31, 37, 34],
-  [47, 48, 46, 44, 49, 50],
-  [28, 26, 30, 27, 24, 31],
-  [42, 44, 40, 43, 41, 45],
-  [32, 35, 33, 30, 36, 34],
-];
-
-const FEE_SETS = [
-  ["paid","paid","unpaid"],
-  ["paid","paid","paid"],
-  ["paid","unpaid","unpaid"],
-  ["paid","paid","paid"],
-  ["unpaid","unpaid","unpaid"],
-  ["paid","paid","paid"],
-  ["paid","paid","unpaid"],
-  ["paid","paid","paid"],
-  ["paid","unpaid","unpaid"],
-  ["paid","paid","paid"],
-  ["paid","paid","unpaid"],
-];
-
-const NAMES = [
-  "Aayu","Sanvi","Ayan","Arifa","Anaya",
-  "Nayyar","Nafisha","Abusad","Asad","Owais","Rabiya"
-];
-
-function buildStudents() {
-  const obj = {};
-  NAMES.forEach((name, i) => {
-    const id   = String(i + 1).padStart(2, "0");
-    const seed = (i + 1) * 7919;
-    const fs   = FEE_SETS[i];
-    obj[id] = {
-      name,
-      attendance: fullAttendance(seed),
-      results: SUBJECTS.map((sub, j) => ({
-        subject: sub,
-        date:    "2026-09-" + String(5 + j * 2).padStart(2, "0"),
-        score:   SCORE_SETS[i][j],
-        total:   50,
-      })),
-      fees: [
-        { month: "July 2026",      amount: 1500, status: fs[0], due: "2026-07-05" },
-        { month: "August 2026",    amount: 1500, status: fs[1], due: "2026-08-05" },
-        { month: "September 2026", amount: 1500, status: fs[2], due: "2026-09-05" },
-      ],
-    };
-  });
-  return obj;
-}
-
-const STUDENTS = buildStudents();
-
-/* ── State — default to current real month/year ── */
 let currentStudent = null;
 const _now   = new Date();
 let calYear  = _now.getFullYear();
 let calMonth = _now.getMonth() + 1;
+let upcomingTimer = null;
+let announcementTimer = null;
 
-/* ── Helpers ── */
 function $(id) { return document.getElementById(id); }
 function initIcons() { if (window.lucide) lucide.createIcons(); }
 
-/* ══════════════════════════════════════
-   LOGIN
-══════════════════════════════════════ */
 $("login-btn").addEventListener("click", doLogin);
 $("student-id-input").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
 
@@ -140,7 +24,6 @@ function doLogin() {
   $("sidebar-id").textContent        = "#" + key;
   $("topbar-student-id").textContent = "#" + key;
 
-  /* Reset to dashboard */
   setActiveNav("dashboard");
   document.querySelectorAll(".section").forEach(s => {
     s.style.display = s.id === "section-dashboard" ? "block" : "none";
@@ -156,7 +39,6 @@ function shake(el) {
   setTimeout(() => el.classList.remove("shake"), 500);
 }
 
-/* ── Logout (both sidebar & mobile) ── */
 function doLogout() {
   currentStudent = null;
   $("app").style.display          = "none";
@@ -167,40 +49,8 @@ function doLogout() {
 $("logout-btn").addEventListener("click", doLogout);
 $("logout-btn-mobile").addEventListener("click", doLogout);
 
-/* ══════════════════════════════════════
-   NAV — sidebar + bottom nav synced
-══════════════════════════════════════ */
-function setActiveNav(section) {
-  document.querySelectorAll(".nav-btn").forEach(b =>
-    b.classList.toggle("active", b.dataset.section === section));
-  document.querySelectorAll(".bnav-btn").forEach(b =>
-    b.classList.toggle("active", b.dataset.section === section));
-}
-
-function switchSection(target) {
-  setActiveNav(target);
-  document.querySelectorAll(".section").forEach(s => {
-    s.style.display = s.id === "section-" + target ? "block" : "none";
-  });
-  if (target === "calendar")    renderCalendar();
-  if (target === "results")     renderResults();
-  if (target === "performance") renderPerformance();
-  if (target === "leaderboard") renderLeaderboard();
-  if (target === "fees")        renderFees();
-  initIcons();
-}
-
-document.querySelectorAll(".nav-btn").forEach(btn => {
-  btn.addEventListener("click", () => switchSection(btn.dataset.section));
-});
-document.querySelectorAll(".bnav-btn").forEach(btn => {
-  btn.addEventListener("click", () => switchSection(btn.dataset.section));
-});
-
-/* ══════════════════════════════════════
-   NOTICE POPUP
-══════════════════════════════════════ */
 function showNotice() {
+  $("notice-student-name").textContent = STUDENTS[currentStudent].name;
   $("notice-overlay").style.display = "flex";
   initIcons();
 }
@@ -211,9 +61,6 @@ $("notice-overlay").addEventListener("click", e => {
   if (e.target === $("notice-overlay")) $("notice-overlay").style.display = "none";
 });
 
-/* ══════════════════════════════════════
-   DASHBOARD
-══════════════════════════════════════ */
 function loadDashboard() {
   const s   = STUDENTS[currentStudent];
   const now = new Date();
@@ -232,23 +79,105 @@ function loadDashboard() {
   $("stat-percent").textContent = pct + "%";
   $("stat-rank").textContent    = "#" + computeRank(currentStudent);
 
-  const lastFee = [...s.fees].reverse()[0];
+  const statsGrid = $("stats-grid");
+  statsGrid.classList.remove("stats-animate");
+  void statsGrid.offsetWidth;
+  statsGrid.classList.add("stats-animate");
+
+  const currentMonthKey = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+  const currentFee = s.fees.find(fee => fee.due.startsWith(currentMonthKey));
   const badge   = $("dash-fee-badge");
   const desc    = $("dash-fee-desc");
-  if (lastFee.status === "paid") {
+  if (!currentFee) {
+    badge.className = "fee-badge unpaid";
+    badge.textContent = "Unavailable";
+    desc.textContent = "No fee record for this month.";
+  } else if (currentFee.status === "paid") {
     badge.className   = "fee-badge paid";
     badge.textContent = "Paid";
-    desc.textContent  = lastFee.month + " — cleared.";
+    desc.textContent  = currentFee.month + " — cleared.";
   } else {
     badge.className   = "fee-badge unpaid";
     badge.textContent = "Unpaid";
-    desc.textContent  = lastFee.month + " — due " + lastFee.due + ".";
+    desc.textContent  = currentFee.month + " — due " + currentFee.due + ".";
   }
 
   typeGreeting(s.name);
+  renderAnnouncement();
+  startUpcomingEvents();
 }
 
-/* ── Typing animation for greeting ── */
+function renderAnnouncement() {
+  const banner = $("announcement-banner");
+  const mediaItems = Array.isArray(ANNOUNCEMENT_MEDIA) ? ANNOUNCEMENT_MEDIA : [ANNOUNCEMENT_MEDIA];
+  let mediaIndex = 0;
+  clearInterval(announcementTimer);
+
+  function showMedia() {
+    const media = mediaItems[mediaIndex];
+    if (!media) return;
+    banner.classList.remove("announcement-changing");
+    void banner.offsetWidth;
+    banner.innerHTML = "";
+    let element;
+    if (media.type === "video") {
+      element = document.createElement("video");
+      element.autoplay = true;
+      element.muted = true;
+      element.loop = true;
+      element.playsInline = true;
+    } else {
+      element = document.createElement("img");
+    }
+    element.src = media.src;
+    element.alt = media.alt || "Announcement";
+    element.className = "announcement-media";
+    element.addEventListener("error", () => { banner.style.display = "none"; });
+    banner.appendChild(element);
+    banner.style.display = "block";
+    banner.classList.add("announcement-changing");
+    initIcons();
+    mediaIndex = (mediaIndex + 1) % mediaItems.length;
+  }
+
+  if (!mediaItems.length) {
+    banner.style.display = "none";
+    return;
+  }
+  showMedia();
+  if (mediaItems.length > 1) announcementTimer = setInterval(showMedia, 6000);
+}
+
+function startUpcomingEvents() {
+  clearInterval(upcomingTimer);
+  const events = UPCOMING_EVENTS
+    .filter(event => new Date(event.date + "T23:59:59") >= new Date())
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const list = $("upcoming-list");
+  let eventIndex = 0;
+
+  function showEvent() {
+    list.classList.remove("event-changing");
+    void list.offsetWidth;
+    list.innerHTML = "";
+    if (!events.length) {
+      list.innerHTML = "<li>No upcoming events.</li>";
+      return;
+    }
+    const event = events[eventIndex];
+    const date = new Date(event.date + "T00:00:00").toLocaleDateString("en-IN", {
+      day: "numeric", month: "short", year: "numeric"
+    });
+    list.innerHTML = "<li><i data-lucide='calendar'></i><span>" + event.title + " &mdash; " + date + "</span></li>";
+    list.classList.add("event-changing");
+    initIcons();
+    eventIndex = (eventIndex + 1) % events.length;
+  }
+
+  showEvent();
+  if (events.length > 1) upcomingTimer = setInterval(showEvent, 5000);
+}
+
 function typeGreeting(name) {
   const el = $("greeting-name-typed");
   el.textContent = "";
@@ -270,9 +199,6 @@ function computeRank(sid) {
     .findIndex(r => r.id === sid) + 1;
 }
 
-/* ══════════════════════════════════════
-   CALENDAR
-══════════════════════════════════════ */
 const MONTH_NAMES = [
   "January","February","March","April","May","June",
   "July","August","September","October","November","December"
@@ -316,7 +242,7 @@ function renderCalendar() {
 
   for (let d = 1; d <= totalDays; d++) {
     const ds     = calYear + "-" + String(calMonth).padStart(2,"0") + "-" + String(d).padStart(2,"0");
-    const status = s.attendance[ds] || "sunday";
+    const status = s.attendance[ds] || "";
 
     if (status === "present") { pres++; wd++; }
     if (status === "absent")  { abs++;  wd++; }
@@ -343,7 +269,6 @@ function renderCalendar() {
   $("ms-percent").textContent = rate + "%";
 }
 
-/* ── Day popup ── */
 function openDayPopup(ds, status) {
   const d = new Date(ds + "T00:00:00");
   $("popup-date-title").textContent = d.toLocaleDateString("en-IN", {
@@ -352,7 +277,7 @@ function openDayPopup(ds, status) {
   const labels = { present:"Present", absent:"Absent", sunday:"Sunday", holiday:"Holiday" };
   const st = $("popup-status");
   st.textContent = labels[status] || status;
-  st.className   = "popup-status " + status;
+  st.className   = "popup-status " + (status || "blank");
   const notes = {
     present: "Attendance recorded for this day.",
     absent:  "Marked absent. Contact admin if incorrect.",
@@ -369,9 +294,6 @@ $("popup-overlay").addEventListener("click", e => {
   if (e.target === $("popup-overlay")) $("popup-overlay").style.display = "none";
 });
 
-/* ══════════════════════════════════════
-   TEST RESULTS
-══════════════════════════════════════ */
 function getGrade(score) {
   if (score >= 85) return "A";
   if (score >= 70) return "B";
@@ -384,15 +306,13 @@ function renderResults() {
   const list = $("results-list");
   list.innerHTML = "";
   s.results.forEach(r => {
-    const grade = getGrade(r.score);
     const pct   = Math.round((r.score / r.total) * 100);
+    const grade = getGrade(pct);
     const card  = document.createElement("div");
     card.className = "result-card";
     card.innerHTML =
       "<div class='result-info'>" +
         "<h4>" + r.subject + "</h4>" +
-        "<p>" + new Date(r.date + "T00:00:00").toLocaleDateString("en-IN",
-          { day:"numeric", month:"short", year:"numeric" }) + "</p>" +
       "</div>" +
       "<div class='result-score'>" +
         "<span class='score-num'>" + r.score + "<small>/" + r.total + "</small></span>" +
@@ -402,9 +322,121 @@ function renderResults() {
   });
 }
 
-/* ══════════════════════════════════════
-   PERFORMANCE
-══════════════════════════════════════ */
+async function downloadMarksheet() {
+  await document.fonts.ready;
+  const student = STUDENTS[currentStudent];
+  let totalScore = 0;
+  let totalMarks = 0;
+  student.results.forEach(result => {
+    totalScore += result.score;
+    totalMarks += result.total;
+  });
+  const overallPercentage = Math.round((totalScore / totalMarks) * 100);
+  const attendanceValues = Object.values(student.attendance);
+  const presentDays = attendanceValues.filter(status => status === "present").length;
+  const absentDays = attendanceValues.filter(status => status === "absent").length;
+  const schoolDays = presentDays + absentDays;
+  const attendancePercentage = schoolDays ? Math.round((presentDays / schoolDays) * 100) : 0;
+  const canvas = document.createElement("canvas");
+  canvas.width = 1200;
+  canvas.height = 760 + student.results.length * 54;
+  const context = canvas.getContext("2d");
+  const logo = new Image();
+  logo.crossOrigin = "anonymous";
+  const logoLoaded = await new Promise(resolve => {
+    const timeout = setTimeout(() => resolve(false), 3000);
+    logo.onload = () => { clearTimeout(timeout); resolve(true); };
+    logo.onerror = () => { clearTimeout(timeout); resolve(false); };
+    logo.src = "https://raw.githubusercontent.com/heysanzu/sanzu/main/sanzu.png";
+  });
+  context.fillStyle = "#f5f5f5";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#111111";
+  context.beginPath();
+  context.roundRect(50, 45, canvas.width - 100, 92, 14);
+  context.fill();
+  context.fillStyle = "#ffffff";
+  context.font = "700 34px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("SHIELDER", 82, 101);
+  context.font = "700 26px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("2026", 1025, 101);
+  context.fillStyle = "#808080";
+  context.beginPath();
+  context.roundRect(70, 160, 1060, 106, 12);
+  context.fill();
+  context.strokeStyle = "#909090";
+  context.stroke();
+  context.fillStyle = "#ffffff";
+  context.font = "600 18px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("Student Information", 95, 192);
+  context.fillStyle = "#ffffff";
+  context.fillRect(70, 212, 1060, 54);
+  context.strokeStyle = "#a0a0a0";
+  context.strokeRect(70, 212, 1060, 54);
+  context.fillStyle = "#111111";
+  context.font = "600 18px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("Name: " + student.name, 95, 247);
+  context.fillText("Roll Number: " + currentStudent, 390, 247);
+  context.fillText("Attendance: " + presentDays + " present, " + absentDays + " absent (" + attendancePercentage + "%)", 700, 247);
+  const tableX = 70;
+  const tableY = 290;
+  const tableWidth = 1060;
+  const tableHeight = 144 + student.results.length * 54;
+  context.save();
+  context.beginPath();
+  context.roundRect(tableX, tableY, tableWidth, tableHeight, 12);
+  context.clip();
+  context.fillStyle = "#808080";
+  context.fillRect(tableX, tableY, tableWidth, 54);
+  context.strokeStyle = "#909090";
+  context.strokeRect(tableX, tableY, tableWidth, 54);
+  context.fillStyle = "#ffffff";
+  context.font = "600 18px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("Subject", 95, 324);
+  context.fillText("Marks", 510, 324);
+  context.fillText("Maximum", 670, 324);
+  context.fillText("Percentage", 835, 324);
+  context.fillText("Grade", 1030, 324);
+  student.results.forEach((result, index) => {
+    const y = 344 + index * 54;
+    const percentage = Math.round((result.score / result.total) * 100);
+    context.fillStyle = "#ffffff";
+    context.fillRect(70, y, 1060, 54);
+    context.strokeStyle = "#c0c0c0";
+    context.strokeRect(70, y, 1060, 54);
+    context.fillStyle = "#111111";
+    context.font = "18px 'SanzuComic', 'Segoe UI', sans-serif";
+    context.fillText(result.subject, 95, y + 34);
+    context.fillText(String(result.score), 530, y + 34);
+    context.fillText(String(result.total), 700, y + 34);
+    context.fillText(percentage + "%", 855, y + 34);
+    context.font = "700 18px 'SanzuComic', 'Segoe UI', sans-serif";
+    context.fillText(getGrade(percentage), 1045, y + 34);
+  });
+  const totalY = 370 + student.results.length * 54;
+  context.fillStyle = "#808080";
+  context.fillRect(70, totalY, 1060, 64);
+  context.strokeStyle = "#909090";
+  context.strokeRect(70, totalY, 1060, 64);
+  context.restore();
+  if (logoLoaded) context.drawImage(logo, canvas.width - 142, canvas.height - 122, 72, 72);
+  context.fillStyle = "#111111";
+  context.font = "700 20px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillText("Total", 95, totalY + 40);
+  context.fillText(totalScore + " / " + totalMarks, 490, totalY + 40);
+  context.fillText(overallPercentage + "%", 855, totalY + 40);
+  context.fillText(getGrade(overallPercentage), 1045, totalY + 40);
+  context.font = "14px 'SanzuComic', 'Segoe UI', sans-serif";
+  context.fillStyle = "#666666";
+  context.fillText("by Shahnewaz", 70, canvas.height - 40);
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "SHIELDER-" + currentStudent + "-marksheet.png";
+  link.click();
+}
+
+$("download-marksheet").addEventListener("click", downloadMarksheet);
+
 function renderPerformance() {
   const s   = STUDENTS[currentStudent];
   const avg = s.results.reduce((a, r) => a + r.score, 0) / s.results.length;
@@ -433,12 +465,9 @@ function renderPerformance() {
   });
 }
 
-/* ══════════════════════════════════════
-   LEADERBOARD — no student IDs shown
-══════════════════════════════════════ */
 function renderLeaderboard() {
   const rows = Object.entries(STUDENTS).map(([id, s]) => {
-    const avg  = s.results.reduce((a, r) => a + r.score, 0) / s.results.length;
+    const avg  = s.results.reduce((total, result) => total + (result.score / result.total) * 100, 0) / s.results.length;
     const vals = Object.values(s.attendance);
     const pres = vals.filter(v => v === "present").length;
     const wd   = vals.filter(v => v !== "sunday" && v !== "holiday").length;
@@ -454,7 +483,7 @@ function renderLeaderboard() {
     const isMe    = item.id === currentStudent;
 
     const row = document.createElement("div");
-    row.className = "lb-row" + (isMe ? " current-student" : "");
+    row.className = "lb-row" + (rank === 1 ? " topper-row" : "") + (isMe ? " current-student" : "");
     row.innerHTML =
       "<span class='lb-rank " + rankCls + "'>" + rank + "</span>" +
       "<div style='flex:1;min-width:0'>" +
@@ -469,9 +498,6 @@ function renderLeaderboard() {
   });
 }
 
-/* ══════════════════════════════════════
-   FEES
-══════════════════════════════════════ */
 function renderFees() {
   const s    = STUDENTS[currentStudent];
   const grid = $("fees-grid");
@@ -486,16 +512,12 @@ function renderFees() {
         "<p>Due: " + f.due + "</p>" +
       "</div>" +
       "<div class='fee-right'>" +
-        "<span class='fee-amount'>&#8377;" + f.amount.toLocaleString("en-IN") + "</span>" +
         "<span class='fee-badge " + (paid ? "paid" : "unpaid") + "'>" + (paid ? "Paid" : "Unpaid") + "</span>" +
       "</div>";
     grid.appendChild(row);
   });
 }
 
-/* ══════════════════════════════════════
-   AI CHAT
-══════════════════════════════════════ */
 $("chat-send").addEventListener("click", sendChat);
 $("chat-input").addEventListener("keydown", e => { if (e.key === "Enter") sendChat(); });
 
@@ -522,7 +544,7 @@ async function sendChat() {
     "- Average score: " + avg + "%\n" +
     "- Rank: #" + computeRank(currentStudent) + " of " + Object.keys(STUDENTS).length + "\n" +
     "- Subjects: " + s.results.map(r => r.subject + " " + r.score + "/100").join(", ") + "\n" +
-    "- Latest fee: " + lastFee.month + " — " + lastFee.status + " (Rs." + lastFee.amount + ")\n\n" +
+    "- Latest fee: " + lastFee.month + " — " + lastFee.status + "\n\n" +
     "Reply in 2-4 sentences max. Be warm and direct.";
 
   const typing = appendTyping();
@@ -554,7 +576,7 @@ function appendMsg(role, text) {
   wrap.className = "chat-msg " + role;
   const av = document.createElement("div");
   av.className = "chat-avatar";
-  av.innerHTML = role === "bot" ? "<i data-lucide='shield'></i>" : "<i data-lucide='user-round'></i>";
+  av.innerHTML = role === "bot" ? "<i data-lucide='message-square'></i>" : "<i data-lucide='user-round'></i>";
   const bub = document.createElement("div");
   bub.className   = "chat-bubble";
   bub.textContent = text;
@@ -571,7 +593,7 @@ function appendTyping() {
   wrap.className = "chat-msg bot";
   const av = document.createElement("div");
   av.className = "chat-avatar";
-  av.innerHTML = "<i data-lucide='shield'></i>";
+  av.innerHTML = "<i data-lucide='message-square'></i>";
   const bub = document.createElement("div");
   bub.className   = "chat-bubble typing-indicator";
   bub.textContent = "Typing...";
@@ -588,5 +610,4 @@ function scrollChat() {
   box.scrollTop = box.scrollHeight;
 }
 
-/* ── Boot ── */
 initIcons();
