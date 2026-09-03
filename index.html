@@ -6,20 +6,19 @@
   <title>SHIELDER</title>
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/heysanzu/sanzu/main/sanzu.png" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
 
-  <!-- ══ LOGIN ══ -->
   <div id="login-screen">
     <div id="login-box">
       <div class="login-logo">
-        <i data-lucide="shield"></i>
         <h1>SHIELDER</h1>
       </div>
       <div class="input-group">
         <i data-lucide="hash"></i>
-        <input type="text" id="student-id-input" placeholder="Enter your number…" maxlength="3" />
+        <input type="text" id="student-id-input" placeholder="Enter your roll" maxlength="3" />
       </div>
       <button id="login-btn" class="btn-primary">
         <i data-lucide="log-in"></i> Enter
@@ -30,13 +29,10 @@
     </a>
   </div>
 
-  <!-- ══ APP ══ -->
   <div id="app" style="display:none">
 
-    <!-- Sidebar (desktop) -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <i data-lucide="shield" class="sidebar-icon"></i>
         <span class="sidebar-title">SHIELDER</span>
       </div>
       <nav class="sidebar-nav">
@@ -76,10 +72,8 @@
       </div>
     </aside>
 
-    <!-- Mobile topbar -->
     <header class="topbar">
       <div class="topbar-logo">
-        <i data-lucide="shield"></i>
         <span>SHIELDER</span>
       </div>
       <div class="topbar-right">
@@ -90,20 +84,17 @@
       </div>
     </header>
 
-    <!-- Main content -->
     <main class="main-content">
 
-      <!-- DASHBOARD -->
       <section id="section-dashboard" class="section" style="display:block">
         <div class="section-header">
           <div>
-            <p class="greeting-line">Welcome back,</p>
-            <h2 class="greeting-name"><span id="greeting-name-typed"></span><span class="cursor">|</span></h2>
+            <h2 class="greeting-name">Hey, <span id="greeting-name-typed"></span><span class="cursor">|</span></h2>
           </div>
           <span id="current-date-display" class="date-chip"></span>
         </div>
 
-        <div class="stats-grid">
+        <div class="stats-grid" id="stats-grid">
           <div class="stat-card">
             <i data-lucide="calendar-check-2"></i>
             <div>
@@ -134,17 +125,15 @@
           </div>
         </div>
 
+        <div class="announcement-banner" id="announcement-banner"></div>
+
         <div class="dashboard-grid">
-          <div class="card">
+          <div class="card upcoming-card">
             <div class="card-head">
               <h3>Upcoming</h3>
               <i data-lucide="bell"></i>
             </div>
-            <ul class="upcoming-list">
-              <li><i data-lucide="calendar"></i> Unit Test &mdash; 12 Oct</li>
-              <li><i data-lucide="calendar"></i> Holiday &mdash; 20 Oct (Dussehra)</li>
-              <li><i data-lucide="calendar"></i> Parent Meeting &mdash; 28 Oct</li>
-            </ul>
+            <ul class="upcoming-list" id="upcoming-list"></ul>
           </div>
           <div class="card">
             <div class="card-head">
@@ -159,7 +148,6 @@
         </div>
       </section>
 
-      <!-- ATTENDANCE CALENDAR -->
       <section id="section-calendar" class="section" style="display:none">
         <div class="section-header">
           <h2>Attendance</h2>
@@ -187,13 +175,16 @@
         </div>
       </section>
 
-      <!-- TEST RESULTS -->
       <section id="section-results" class="section" style="display:none">
-        <div class="section-header"><h2>Test Results</h2></div>
+        <div class="section-header">
+          <h2>Test Results</h2>
+          <button id="download-marksheet" class="download-btn" type="button">
+            <i data-lucide="download"></i><span>Download</span>
+          </button>
+        </div>
         <div class="results-list" id="results-list"></div>
       </section>
 
-      <!-- PERFORMANCE -->
       <section id="section-performance" class="section" style="display:none">
         <div class="section-header"><h2>Performance</h2></div>
         <div class="performance-wrap">
@@ -219,25 +210,22 @@
         </div>
       </section>
 
-      <!-- LEADERBOARD -->
       <section id="section-leaderboard" class="section" style="display:none">
         <div class="section-header"><h2>Leaderboard</h2></div>
         <div class="leaderboard-wrap" id="leaderboard-wrap"></div>
       </section>
 
-      <!-- FEES -->
       <section id="section-fees" class="section" style="display:none">
         <div class="section-header"><h2>Fee Details</h2></div>
         <div class="fees-grid" id="fees-grid"></div>
       </section>
 
-      <!-- AI CHAT -->
       <section id="section-chat" class="section" style="display:none">
         <div class="section-header"><h2>AI Support</h2></div>
         <div class="chat-wrap">
           <div class="chat-messages" id="chat-messages">
             <div class="chat-msg bot">
-              <div class="chat-avatar"><i data-lucide="shield"></i></div>
+              <div class="chat-avatar"><i data-lucide="message-square"></i></div>
               <div class="chat-bubble">Hello! I'm your SHIELDER assistant. Ask me anything about your attendance, results, fees, or schedule.</div>
             </div>
           </div>
@@ -250,7 +238,6 @@
 
     </main>
 
-    <!-- Mobile bottom nav -->
     <nav class="bottom-nav" id="bottom-nav">
       <button class="bnav-btn active" data-section="dashboard">
         <i data-lucide="layout-dashboard"></i><span>Home</span>
@@ -264,28 +251,24 @@
       <button class="bnav-btn" data-section="leaderboard">
         <i data-lucide="trophy"></i><span>Rank</span>
       </button>
-      <button class="bnav-btn" data-section="chat">
-        <i data-lucide="message-square"></i><span>AI</span>
+      <button class="bnav-btn" data-section="fees">
+        <i data-lucide="receipt"></i><span>Fees</span>
       </button>
     </nav>
 
   </div>
 
-  <!-- Notice Popup -->
   <div id="notice-overlay" class="popup-overlay" style="display:none">
     <div class="popup notice-popup">
-      <div class="notice-icon"><i data-lucide="megaphone"></i></div>
-      <h3>Notice Board</h3>
-      <ul class="notice-list">
-        <li><i data-lucide="circle-dot"></i> Today class is open.</li>
-      </ul>
-      <button id="notice-close" class="btn-primary" style="margin-top:8px">
+      <p class="notice-welcome">Welcome, <b id="notice-student-name">Student</b></p>
+      <p class="notice-description">Your latest updates are ready to view.</p>
+      <div class="notice-divider"></div>
+      <button id="notice-close" class="btn-primary">
         <i data-lucide="check"></i> Got it
       </button>
     </div>
   </div>
 
-  <!-- Day Detail Popup -->
   <div id="popup-overlay" class="popup-overlay" style="display:none">
     <div class="popup">
       <button class="popup-close" id="popup-close"><i data-lucide="x"></i></button>
@@ -295,6 +278,8 @@
     </div>
   </div>
 
+  <script src="data.js"></script>
+  <script src="navigation.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
