@@ -45,17 +45,11 @@
         <button class="nav-btn" data-section="results">
           <i data-lucide="file-bar-chart-2"></i><span>Test Results</span>
         </button>
-        <button class="nav-btn" data-section="performance">
-          <i data-lucide="trending-up"></i><span>Performance</span>
-        </button>
         <button class="nav-btn" data-section="leaderboard">
           <i data-lucide="trophy"></i><span>Leaderboard</span>
         </button>
         <button class="nav-btn" data-section="fees">
           <i data-lucide="receipt"></i><span>Fees</span>
-        </button>
-        <button class="nav-btn" data-section="chat">
-          <i data-lucide="message-square"></i><span>AI Support</span>
         </button>
       </nav>
       <div class="sidebar-footer">
@@ -94,6 +88,8 @@
           <span id="current-date-display" class="date-chip"></span>
         </div>
 
+        <div class="announcement-banner" id="announcement-banner"></div>
+
         <div class="stats-grid" id="stats-grid">
           <div class="stat-card">
             <i data-lucide="calendar-check-2"></i>
@@ -125,8 +121,6 @@
           </div>
         </div>
 
-        <div class="announcement-banner" id="announcement-banner"></div>
-
         <div class="dashboard-grid">
           <div class="card upcoming-card">
             <div class="card-head">
@@ -145,6 +139,14 @@
               <p id="dash-fee-desc">Monthly fee cleared.</p>
             </div>
           </div>
+        </div>
+        <div class="card about-card">
+          <div class="card-head">
+            <h3>About</h3>
+            <i data-lucide="info"></i>
+          </div>
+          <p>SHIELDER helps students keep track of attendance, results, fees, and tution updates.</p>
+          <small>by Shahnewaz</small>
         </div>
       </section>
 
@@ -185,31 +187,6 @@
         <div class="results-list" id="results-list"></div>
       </section>
 
-      <section id="section-performance" class="section" style="display:none">
-        <div class="section-header"><h2>Performance</h2></div>
-        <div class="performance-wrap">
-          <div class="card perf-overview">
-            <h3>Overall Standing</h3>
-            <div class="perf-ring-wrap">
-              <svg class="perf-ring" viewBox="0 0 120 120">
-                <circle class="ring-bg"   cx="60" cy="60" r="50"/>
-                <circle class="ring-fill" id="perf-ring-fill" cx="60" cy="60" r="50"
-                  stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
-              </svg>
-              <div class="ring-label">
-                <span id="perf-ring-percent">--%</span>
-                <small>Score</small>
-              </div>
-            </div>
-            <p class="perf-grade" id="perf-grade">--</p>
-          </div>
-          <div class="card">
-            <h3 style="font-size:.9rem;font-weight:600;margin-bottom:14px">Subject Breakdown</h3>
-            <div class="subject-bars" id="subject-bars"></div>
-          </div>
-        </div>
-      </section>
-
       <section id="section-leaderboard" class="section" style="display:none">
         <div class="section-header"><h2>Leaderboard</h2></div>
         <div class="leaderboard-wrap" id="leaderboard-wrap"></div>
@@ -218,22 +195,6 @@
       <section id="section-fees" class="section" style="display:none">
         <div class="section-header"><h2>Fee Details</h2></div>
         <div class="fees-grid" id="fees-grid"></div>
-      </section>
-
-      <section id="section-chat" class="section" style="display:none">
-        <div class="section-header"><h2>AI Support</h2></div>
-        <div class="chat-wrap">
-          <div class="chat-messages" id="chat-messages">
-            <div class="chat-msg bot">
-              <div class="chat-avatar"><i data-lucide="message-square"></i></div>
-              <div class="chat-bubble">Hello! I'm your SHIELDER assistant. Ask me anything about your attendance, results, fees, or schedule.</div>
-            </div>
-          </div>
-          <div class="chat-input-bar">
-            <input type="text" id="chat-input" placeholder="Ask something…" />
-            <button id="chat-send" class="btn-primary"><i data-lucide="send"></i></button>
-          </div>
-        </div>
       </section>
 
     </main>
@@ -261,7 +222,7 @@
   <div id="notice-overlay" class="popup-overlay" style="display:none">
     <div class="popup notice-popup">
       <p class="notice-welcome">Welcome, <b id="notice-student-name">Student</b></p>
-      <p class="notice-description">Your latest updates are ready to view.</p>
+      <p class="notice-description">Your academic updates are ready to view.</p>
       <div class="notice-divider"></div>
       <button id="notice-close" class="btn-primary">
         <i data-lucide="check"></i> Got it
