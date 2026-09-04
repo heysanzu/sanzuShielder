@@ -437,34 +437,6 @@ async function downloadMarksheet() {
 
 $("download-marksheet").addEventListener("click", downloadMarksheet);
 
-function renderPerformance() {
-  const s   = STUDENTS[currentStudent];
-  const avg = s.results.reduce((a, r) => a + r.score, 0) / s.results.length;
-  const pct = Math.round(avg);
-
-  $("perf-ring-fill").style.strokeDashoffset = 314.16 - (pct / 100) * 314.16;
-  $("perf-ring-percent").textContent = pct + "%";
-
-  const gradeMap = {
-    A: "Excellent — keep it up!",
-    B: "Good work — room to grow.",
-    C: "Average — needs more effort.",
-    D: "Needs improvement.",
-  };
-  $("perf-grade").textContent = gradeMap[getGrade(pct)];
-
-  const bars = $("subject-bars");
-  bars.innerHTML = "";
-  s.results.forEach(r => {
-    const sp = Math.round((r.score / r.total) * 100);
-    bars.innerHTML +=
-      "<div class='subject-bar-item'>" +
-        "<div class='subject-bar-head'><span>" + r.subject + "</span><span>" + r.score + "/" + r.total + "</span></div>" +
-        "<div class='bar-track'><div class='bar-fill' style='width:" + sp + "%'></div></div>" +
-      "</div>";
-  });
-}
-
 function renderLeaderboard() {
   const rows = Object.entries(STUDENTS).map(([id, s]) => {
     const avg  = s.results.reduce((total, result) => total + (result.score / result.total) * 100, 0) / s.results.length;
@@ -516,98 +488,6 @@ function renderFees() {
       "</div>";
     grid.appendChild(row);
   });
-}
-
-$("chat-send").addEventListener("click", sendChat);
-$("chat-input").addEventListener("keydown", e => { if (e.key === "Enter") sendChat(); });
-
-async function sendChat() {
-  const input = $("chat-input");
-  const msg   = input.value.trim();
-  if (!msg) return;
-  input.value = "";
-  appendMsg("user", msg);
-
-  const s       = STUDENTS[currentStudent];
-  const vals    = Object.values(s.attendance);
-  const present = vals.filter(v => v === "present").length;
-  const absent  = vals.filter(v => v === "absent").length;
-  const wd      = vals.filter(v => v !== "sunday" && v !== "holiday").length;
-  const att     = wd ? Math.round((present / wd) * 100) : 0;
-  const avg     = Math.round(s.results.reduce((a,r) => a + r.score, 0) / s.results.length);
-  const lastFee = [...s.fees].reverse()[0];
-
-  const system =
-    "You are SHIELDER AI — a friendly, brief academic assistant for " + s.name + " (Student #" + currentStudent + ").\n\n" +
-    "Student snapshot:\n" +
-    "- Attendance: " + present + " present, " + absent + " absent / " + wd + " school days (" + att + "%)\n" +
-    "- Average score: " + avg + "%\n" +
-    "- Rank: #" + computeRank(currentStudent) + " of " + Object.keys(STUDENTS).length + "\n" +
-    "- Subjects: " + s.results.map(r => r.subject + " " + r.score + "/100").join(", ") + "\n" +
-    "- Latest fee: " + lastFee.month + " — " + lastFee.status + "\n\n" +
-    "Reply in 2-4 sentences max. Be warm and direct.";
-
-  const typing = appendTyping();
-
-  try {
-    const res  = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system,
-        messages: [{ role: "user", content: msg }],
-      }),
-    });
-    const data = await res.json();
-    typing.querySelector(".chat-bubble").textContent =
-      data.content?.[0]?.text || "Couldn't get a response. Try again.";
-  } catch {
-    typing.querySelector(".chat-bubble").textContent = "Connection issue. Try again shortly.";
-  }
-
-  scrollChat();
-  initIcons();
-}
-
-function appendMsg(role, text) {
-  const wrap = document.createElement("div");
-  wrap.className = "chat-msg " + role;
-  const av = document.createElement("div");
-  av.className = "chat-avatar";
-  av.innerHTML = role === "bot" ? "<i data-lucide='message-square'></i>" : "<i data-lucide='user-round'></i>";
-  const bub = document.createElement("div");
-  bub.className   = "chat-bubble";
-  bub.textContent = text;
-  wrap.appendChild(av);
-  wrap.appendChild(bub);
-  $("chat-messages").appendChild(wrap);
-  initIcons();
-  scrollChat();
-  return wrap;
-}
-
-function appendTyping() {
-  const wrap = document.createElement("div");
-  wrap.className = "chat-msg bot";
-  const av = document.createElement("div");
-  av.className = "chat-avatar";
-  av.innerHTML = "<i data-lucide='message-square'></i>";
-  const bub = document.createElement("div");
-  bub.className   = "chat-bubble typing-indicator";
-  bub.textContent = "Typing...";
-  wrap.appendChild(av);
-  wrap.appendChild(bub);
-  $("chat-messages").appendChild(wrap);
-  initIcons();
-  scrollChat();
-  return wrap;
-}
-
-function scrollChat() {
-  const box = $("chat-messages");
-  box.scrollTop = box.scrollHeight;
 }
 
 initIcons();
