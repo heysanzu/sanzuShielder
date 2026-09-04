@@ -11,7 +11,6 @@ function switchSection(target) {
   });
   if (target === "calendar") renderCalendar();
   if (target === "results") renderResults();
-  if (target === "performance") renderPerformance();
   if (target === "leaderboard") renderLeaderboard();
   if (target === "fees") renderFees();
   initIcons();
