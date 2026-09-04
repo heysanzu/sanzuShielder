@@ -14,7 +14,7 @@ const UPCOMING_EVENTS = [
 const ANNOUNCEMENT_MEDIA = [
   {
     type: "image",
-    src: "src/announcement/testResults.png",
+    src: "src/announcement/shielderHero.png",
     alt: "SHIELDER announcement",
   },
   {
