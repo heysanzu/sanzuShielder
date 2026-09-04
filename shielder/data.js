@@ -47,7 +47,7 @@ function makeResults(scores) {
 }
 
 function fee(month, status, due) {
-  return { month, amount: 1500, status, due };
+  return { month, amount: 500, status, due };
 }
 
 const STUDENT_01 = {
