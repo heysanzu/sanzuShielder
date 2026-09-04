@@ -19,8 +19,8 @@ const ANNOUNCEMENT_MEDIA = [
   },
   {
     type: "image",
-    src: "https://raw.githubusercontent.com/heysanzu/sanzuFlappy/main/src/flappyUI.png",
-    alt: "SHIELDER announcement video",
+    src: "src/announcement/testResults.png",
+    alt: "SHIELDER announcement",
   },
 ];
 
