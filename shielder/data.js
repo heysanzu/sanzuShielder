@@ -14,12 +14,12 @@ const UPCOMING_EVENTS = [
 const ANNOUNCEMENT_MEDIA = [
   {
     type: "image",
-    src: "https://raw.githubusercontent.com/heysanzu/sanzu/main/sanzu.png",
+    src: "src/announcement/testResults.png",
     alt: "SHIELDER announcement",
   },
   {
     type: "image",
-    src: "src/announcement/testResults.png",
+    src: "src/announcement/hero.gif",
     alt: "SHIELDER announcement",
   },
 ];
