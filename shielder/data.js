@@ -22,6 +22,12 @@ const ANNOUNCEMENT_MEDIA = [
     src: "src/announcement/hero.gif",
     alt: "SHIELDER announcement",
   },
+
+    {
+    type: "image",
+    src: "src/announcement/hero.png",
+    alt: "SHIELDER announcement",
+  },
 ];
 
 function blankAttendance() {
