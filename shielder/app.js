@@ -125,10 +125,27 @@ function renderNotes() {
       "<div class='note-info'><i data-lucide='file-text'></i>" +
         "<div><h4></h4><p>PDF note</p></div>" +
       "</div>" +
-      "<div class='note-actions'><a class='download-btn note-view' target='_blank' rel='noopener'>View</a>" +
-        "<a class='download-btn note-download' download><i data-lucide='download'></i><span>Download</span></a>" +
+      "<div class='note-actions'><a class='download-btn note-view' target='_blank' rel='noopener' title='View note' aria-label='View note'><i data-lucide='eye'></i></a>" +
+        "<a class='download-btn note-download' download title='Download note' aria-label='Download note'>Download</a>" +
       "</div>";
     item.querySelector("h4").textContent = note.title;
+    const noteInfo = item.querySelector(".note-info");
+    const toggleActions = () => {
+      document.querySelectorAll(".note-item.is-selected").forEach(selected => {
+        if (selected !== item) selected.classList.remove("is-selected");
+      });
+      item.classList.toggle("is-selected");
+    };
+    noteInfo.addEventListener("click", toggleActions);
+    noteInfo.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleActions();
+      }
+    });
+    noteInfo.setAttribute("tabindex", "0");
+    noteInfo.setAttribute("role", "button");
+    noteInfo.setAttribute("aria-label", "Select " + note.title);
     const view = item.querySelector(".note-view");
     view.href = note.data;
     const download = item.querySelector(".note-download");
