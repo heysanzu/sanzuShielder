@@ -198,7 +198,7 @@ const STUDENT_11 = {
 const STUDENT_12 = {
   name: "Hasan",
   attendance: blankAttendance(),
-  results: makeResults([40, 36, 43, 39, 41, 38]),
+  results: makeResults([41, 36, 43, 39, 41, 38]),
   fees: [
     fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"),
     fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "paid", "2026-05-05"), fee("June 2026", "paid", "2026-06-05"),
