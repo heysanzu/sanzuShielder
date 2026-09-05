@@ -20,9 +20,9 @@ function doLogin() {
   $("login-screen").style.display = "none";
   $("app").style.display          = "flex";
 
-  $("sidebar-name").textContent      = STUDENTS[key].name;
-  $("sidebar-id").textContent        = "#" + key;
-  $("topbar-student-id").textContent = "#" + key;
+  $("sidebar-name").textContent      = STUDENTS[currentStudent].name;
+  $("sidebar-id").textContent        = "#" + currentStudent;
+  $("topbar-student-id").textContent = "#" + currentStudent;
 
   setActiveNav("dashboard");
   document.querySelectorAll(".section").forEach(s => {
@@ -31,6 +31,7 @@ function doLogin() {
 
   loadDashboard();
   showNotice();
+  renderNotes();
   initIcons();
 }
 
@@ -105,6 +106,37 @@ function loadDashboard() {
   typeGreeting(s.name);
   renderAnnouncement();
   startUpcomingEvents();
+}
+
+function renderNotes() {
+  const list = $("notes-list");
+  const notes = NOTES;
+  list.innerHTML = "";
+
+  if (!notes.length) {
+    list.innerHTML = "<p class='notes-empty'>No notes uploaded yet.</p>";
+    return;
+  }
+
+  notes.forEach(note => {
+    const item = document.createElement("div");
+    item.className = "note-item";
+    item.innerHTML =
+      "<div class='note-info'><i data-lucide='file-text'></i>" +
+        "<div><h4></h4><p>PDF note</p></div>" +
+      "</div>" +
+      "<div class='note-actions'><a class='download-btn note-view' target='_blank' rel='noopener'>View</a>" +
+        "<a class='download-btn note-download' download><i data-lucide='download'></i><span>Download</span></a>" +
+      "</div>";
+    item.querySelector("h4").textContent = note.title;
+    const view = item.querySelector(".note-view");
+    view.href = note.data;
+    const download = item.querySelector(".note-download");
+    download.href = note.data;
+    download.download = note.fileName;
+    list.appendChild(item);
+  });
+  initIcons();
 }
 
 function renderAnnouncement() {
