@@ -1,7 +1,7 @@
 const NOTES = [
    {
      title: "Computer",
-     fileName: "computer.pdf",
-     data: "src/notes/computer-notes.pdf",
+     fileName: "shortcuts-keys.pdf",
+     data: "src/notes/shortcuts-keys.pdf",
    },
 ];
