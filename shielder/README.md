@@ -14,3 +14,16 @@ attendance: {
 	"2026-09-05": null,
 },
 ```
+---
+
+## Notes (notes.js)
+
+```js
+const NOTES = [
+  {
+    title: "Math Notes",
+    fileName: "math-notes.pdf",
+    data: "src/notes/math-notes.pdf",
+  },
+];
+```
