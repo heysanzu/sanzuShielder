@@ -330,11 +330,24 @@ html, body { height: 100%; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 
 .about-card { margin-top: 16px; }
 .about-card p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
 .about-card small { display: block; margin-top: 7px; font-size: 0.7rem; color: var(--text-muted); }
+
+.notes-card { margin-bottom: 16px; }
+.notes-list { display: flex; flex-direction: column; gap: 8px; }
+.notes-empty { color: var(--text-muted); font-size: 0.78rem; }
+.note-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
+.note-info, .note-actions { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.note-info > i { width: 17px; height: 17px; color: var(--text-mid); flex-shrink: 0; }
+.note-info h4 { font-size: 0.82rem; font-weight: 600; overflow-wrap: anywhere; }
+.note-info p { color: var(--text-muted); font-size: 0.7rem; margin-top: 2px; }
+.note-actions .download-btn { padding: 6px 9px; }
+.note-delete { border: none; background: transparent; color: var(--text-muted); cursor: pointer; padding: 5px; }
+.note-delete:hover { color: var(--clr-absent); }
+.note-delete i { width: 15px; height: 15px; }
 
 .upcoming-card { background: #000000; border-color: #000000; color: #ffffff; }
 .upcoming-card .card-head i { color: #ffffff; }
@@ -548,6 +561,9 @@ html, body { height: 100%; }
   .perf-overview    { flex-direction: column; }
 
   .section-header { flex-direction: column; align-items: flex-start; }
+
+  .note-item { align-items: flex-start; flex-direction: column; }
+  .note-actions { width: 100%; }
 }
 
 ::-webkit-scrollbar       { width: 4px; height: 4px; }
