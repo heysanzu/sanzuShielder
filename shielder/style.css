@@ -341,10 +341,18 @@ html, body { height: 100%; }
 .notes-empty { color: var(--text-muted); font-size: 0.78rem; }
 .note-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
 .note-info, .note-actions { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.note-info { cursor: pointer; }
 .note-info > i { width: 17px; height: 17px; color: var(--text-mid); flex-shrink: 0; }
 .note-info h4 { font-size: 0.82rem; font-weight: 600; overflow-wrap: anywhere; }
 .note-info p { color: var(--text-muted); font-size: 0.7rem; margin-top: 2px; }
-.note-actions .download-btn { padding: 6px 9px; }
+.note-actions { display: none; flex-shrink: 0; }
+.note-item.is-selected .note-actions { display: flex; }
+.note-actions .download-btn {
+  height: 30px; padding: 0 8px;
+  justify-content: center; text-decoration: none; font-size: 0.72rem;
+}
+.note-actions .note-view { width: 30px; padding: 0; }
+.note-actions .note-view i { width: 12px; height: 12px; }
 .note-delete { border: none; background: transparent; color: var(--text-muted); cursor: pointer; padding: 5px; }
 .note-delete:hover { color: var(--clr-absent); }
 .note-delete i { width: 15px; height: 15px; }
