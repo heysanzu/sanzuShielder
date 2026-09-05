@@ -17,15 +17,22 @@ const ANNOUNCEMENT_MEDIA = [
     src: "src/announcement/heroA.gif",
     alt: "SHIELDER announcement",
   },
+  
   {
     type: "image",
     src: "src/announcement/heroB.gif",
     alt: "SHIELDER announcement",
   },
 
-    {
+  {
     type: "image",
     src: "src/announcement/heroC.gif",
+    alt: "SHIELDER announcement",
+  },
+
+  {
+    type: "image",
+    src: "src/announcement/heroD.gif",
     alt: "SHIELDER announcement",
   },
 ];
