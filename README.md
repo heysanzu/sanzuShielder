@@ -5,7 +5,6 @@ A web-based student data management dashboard designed to track academic results
 [![Download App](https://img.shields.io/badge/Download-App-green?style=for-the-badge&logo=android&logoColor=white)](https://github.com/heysanzu/sanzuShielder/releases/download/SHIELDER_v1.0/shielder.apk)
 
 ![Thumbnail](src/shielderUI.png)
-![Thumbnail](src/shielderUI.gif)
 
 ---  
 
