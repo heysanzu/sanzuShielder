@@ -118,7 +118,7 @@ const STUDENT_05 = {
   fees: [
     fee("January 2026", "unpaid", "2026-01-15"), fee("February 2026", "unpaid", "2026-02-15"), fee("March 2026", "unpaid", "2026-03-15"),
     fee("April 2026", "paid", "2026-04-15"), fee("May 2026", "paid", "2026-05-15"), fee("June 2026", "paid", "2026-06-15"),
-    fee("July 2026", "unpaid", "2026-07-15"), fee("August 2026", "unpaid", "2026-08-15"), fee("September 2026", "unpaid", "2026-09-15"),
+    fee("July 2026", "paid", "2026-07-15"), fee("August 2026", "unpaid", "2026-08-15"), fee("September 2026", "unpaid", "2026-09-15"),
     fee("October 2026", "unpaid", "2026-10-15"), fee("November 2026", "unpaid", "2026-11-15"), fee("December 2026", "unpaid", "2026-12-15"),
   ],
 };
@@ -244,9 +244,14 @@ STUDENT_10.attendance["2026-09-04"] = "absent";
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-05"] = "present";
 });
-STUDENT_01.attendance["2026-09-04"] = "absent";
-STUDENT_02.attendance["2026-09-04"] = "absent";
-STUDENT_05.attendance["2026-09-04"] = "absent";
-STUDENT_06.attendance["2026-09-04"] = "absent";
-STUDENT_07.attendance["2026-09-04"] = "absent";
-STUDENT_10.attendance["2026-09-04"] = "absent";
+STUDENT_01.attendance["2026-09-05"] = "absent";
+STUDENT_02.attendance["2026-09-05"] = "absent";
+STUDENT_05.attendance["2026-09-05"] = "absent";
+STUDENT_06.attendance["2026-09-05"] = "absent";
+STUDENT_07.attendance["2026-09-05"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-07"] = "present";
+});
+STUDENT_01.attendance["2026-09-07"] = "absent";
+STUDENT_07.attendance["2026-09-07"] = "absent";
