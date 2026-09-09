@@ -38,7 +38,7 @@ const ANNOUNCEMENT_MEDIA = [
 
   {
     type: "image",
-    src: "src/announcement/heroE.gif",
+    src: "src/announcement/heroV.gif",
     alt: "SHIELDER announcement",
   },
 ];
