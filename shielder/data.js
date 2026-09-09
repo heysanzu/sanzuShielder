@@ -6,10 +6,10 @@ const HOLIDAYS = {
 };
 const SUBJECTS = ["Math", "English", "Science", "Social Studies", "Hindi", "Computer"];
 const UPCOMING_EVENTS = [
-  { title: "Unit Test", date: "2026-10-12" },
+  { title: "Unit Test 50", date: "2026-9-9" },
   { title: "Holiday - Dussehra", date: "2026-10-20" },
   { title: "Diwali Holiday", date: "2026-11-05" },
-  { title: "Annual Day", date: "2026-12-18" },
+  { title: "Unit Test 50", date: "2026-9-10" },
 ];
 const ANNOUNCEMENT_MEDIA = [
   {
@@ -33,6 +33,12 @@ const ANNOUNCEMENT_MEDIA = [
   {
     type: "image",
     src: "src/announcement/heroD.gif",
+    alt: "SHIELDER announcement",
+  },
+
+  {
+    type: "image",
+    src: "src/announcement/heroE.gif",
     alt: "SHIELDER announcement",
   },
 ];
@@ -249,9 +255,17 @@ STUDENT_02.attendance["2026-09-05"] = "absent";
 STUDENT_05.attendance["2026-09-05"] = "absent";
 STUDENT_06.attendance["2026-09-05"] = "absent";
 STUDENT_07.attendance["2026-09-05"] = "absent";
+STUDENT_10.attendance["2026-09-04"] = "absent";
 
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-07"] = "present";
 });
 STUDENT_01.attendance["2026-09-07"] = "absent";
 STUDENT_07.attendance["2026-09-07"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-08"] = "present";
+});
+STUDENT_01.attendance["2026-09-08"] = "absent";
+STUDENT_02.attendance["2026-09-08"] = "absent";
+STUDENT_07.attendance["2026-09-08"] = "absent";
