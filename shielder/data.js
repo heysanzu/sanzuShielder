@@ -14,6 +14,12 @@ const UPCOMING_EVENTS = [
 const ANNOUNCEMENT_MEDIA = [
   {
     type: "image",
+    src: "src/announcement/heroV.gif",
+    alt: "SHIELDER announcement",
+  },
+  
+  {
+    type: "image",
     src: "src/announcement/heroA.gif",
     alt: "SHIELDER announcement",
   },
@@ -36,11 +42,6 @@ const ANNOUNCEMENT_MEDIA = [
     alt: "SHIELDER announcement",
   },
 
-  {
-    type: "image",
-    src: "src/announcement/heroV.gif",
-    alt: "SHIELDER announcement",
-  },
 ];
 
 function blankAttendance() {
