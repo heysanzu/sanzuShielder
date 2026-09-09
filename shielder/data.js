@@ -262,7 +262,7 @@ STUDENT_02.attendance["2026-09-05"] = "absent";
 STUDENT_05.attendance["2026-09-05"] = "absent";
 STUDENT_06.attendance["2026-09-05"] = "absent";
 STUDENT_07.attendance["2026-09-05"] = "absent";
-STUDENT_10.attendance["2026-09-04"] = "absent";
+STUDENT_10.attendance["2026-09-05"] = "absent";
 
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-07"] = "present";
