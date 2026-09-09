@@ -224,15 +224,16 @@ const STUDENTS = {
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-01"] = "present";
 });
-STUDENT_01.attendance["2026-09-04"] = "absent";
-STUDENT_02.attendance["2026-09-04"] = "absent";
-STUDENT_06.attendance["2026-09-04"] = "absent";
-STUDENT_07.attendance["2026-09-04"] = "absent";
-STUDENT_10.attendance["2026-09-04"] = "absent";
+STUDENT_01.attendance["2026-09-01"] = "absent";
+STUDENT_02.attendance["2026-09-01"] = "absent";
+STUDENT_06.attendance["2026-09-01"] = "absent";
+STUDENT_07.attendance["2026-09-01"] = "absent";
+STUDENT_10.attendance["2026-09-01"] = "absent";
 
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-02"] = "present";
 });
+STUDENT_06.attendance["2026-09-02"] = "absent";
 
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-09-03"] = "present";
