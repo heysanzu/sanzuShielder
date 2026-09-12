@@ -89,7 +89,7 @@ const STUDENT_02 = {
   fees: [
     fee("January 2026", "paid", "2026-01-10"), fee("February 2026", "paid", "2026-02-10"), fee("March 2026", "paid", "2026-03-10"),
     fee("April 2026", "unpaid", "2026-04-10"), fee("May 2026", "unpaid", "2026-05-10"), fee("June 2026", "unpaid", "2026-06-10"),
-    fee("July 2026", "unpaid", "2026-07-10"), fee("August 2026", "paid", "2026-08-10"), fee("September 2026", "paid", "2026-09-10"),
+    fee("July 2026", "unpaid", "2026-07-10"), fee("August 2026", "unpaid", "2026-08-10"), fee("September 2026", "unpaid", "2026-09-10"),
     fee("October 2026", "unpaid", "2026-10-10"), fee("November 2026", "unpaid", "2026-11-10"), fee("December 2026", "unpaid", "2026-12-10"),
   ],
 };
