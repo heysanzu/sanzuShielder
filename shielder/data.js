@@ -6,10 +6,12 @@ const HOLIDAYS = {
 };
 const SUBJECTS = ["Math", "English", "Science", "Social Studies", "Hindi", "Computer"];
 const UPCOMING_EVENTS = [
-  { title: "Unit Test 50", date: "2026-9-9" },
-  { title: "Holiday - Dussehra", date: "2026-10-20" },
-  { title: "Diwali Holiday", date: "2026-11-05" },
-  { title: "Unit Test 50", date: "2026-9-10" },
+  { title: "Unit Test 50 📑", date: "2026-10-9" },
+  { title: "Unit Test 50 📑", date: "2026-10-10" },
+  { title: "Dussehra Holiday 🤩", date: "2026-10-20" },
+  { title: "Diwali Holiday 🤩", date: "2026-11-05" },
+  { title: "Unit Test 50 📑", date: "2026-11-10" },
+  { title: "Unit Test 50 📑", date: "2026-11-11" },
 ];
 const ANNOUNCEMENT_MEDIA = [
   {
