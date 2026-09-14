@@ -1,17 +1,15 @@
 const HOLIDAYS = {
   "2026-01-26": "Republic Day", "2026-03-25": "Holi", "2026-04-14": "Dr. Ambedkar Jayanti",
-  "2026-05-01": "Labour Day", "2026-06-17": "Eid ul-Adha", "2026-08-15": "Independence Day", "2026-09-14": "Ganesh Chaturthi",
+  "2026-05-01": "Labour Day", "2026-06-17": "Eid ul-Adha", "2026-08-15": "Independence Day",
   "2026-10-02": "Gandhi Jayanti", "2026-10-20": "Dussehra", "2026-11-04": "Diwali",
   "2026-11-05": "Diwali Holiday", "2026-12-25": "Christmas",
 };
 const SUBJECTS = ["Math", "English", "Science", "Social Studies", "Hindi", "Computer"];
 const UPCOMING_EVENTS = [
-  { title: "Unit Test 50 📑", date: "2026-10-9" },
-  { title: "Unit Test 50 📑", date: "2026-10-10" },
-  { title: "Dussehra Holiday 🤩", date: "2026-10-20" },
-  { title: "Diwali Holiday 🤩", date: "2026-11-05" },
-  { title: "Unit Test 50 📑", date: "2026-11-10" },
-  { title: "Unit Test 50 📑", date: "2026-11-11" },
+  { title: "Unit Test: Grammar 50", date: "2026-10-9" },
+  { title: "Unit Test: Math 50", date: "2026-10-10" },
+  { title: "Unit Test: Science 50", date: "2026-11-10" },
+  { title: "Unit Test: Social Science 50", date: "2026-11-11" },
 ];
 const ANNOUNCEMENT_MEDIA = [
   {
