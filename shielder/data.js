@@ -299,3 +299,15 @@ Object.values(STUDENTS).forEach(student => {
 });
 STUDENT_06.attendance["2026-09-12"] = "absent";
 STUDENT_07.attendance["2026-09-12"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-14"] = "present";
+});
+STUDENT_01.attendance["2026-09-14"] = "absent";
+STUDENT_06.attendance["2026-09-14"] = "absent";
+STUDENT_07.attendance["2026-09-14"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-15"] = "present";
+});
+STUDENT_07.attendance["2026-09-15"] = "absent";
