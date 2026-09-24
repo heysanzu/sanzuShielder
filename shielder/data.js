@@ -1,6 +1,6 @@
 const HOLIDAYS = {
   "2026-01-26": "Republic Day", "2026-03-25": "Holi", "2026-04-14": "Dr. Ambedkar Jayanti",
-  "2026-05-01": "Labour Day", "2026-06-17": "Eid ul-Adha", "2026-08-15": "Independence Day",
+  "2026-05-01": "Labour Day", "2026-06-17": "Eid ul-Adha", "2026-08-15": "Independence Day", "2026-09-24": "Tution Closed",
   "2026-10-02": "Gandhi Jayanti", "2026-10-20": "Dussehra", "2026-11-04": "Diwali",
   "2026-11-05": "Diwali Holiday", "2026-12-25": "Christmas",
 };
@@ -340,3 +340,27 @@ STUDENT_01.attendance["2026-09-19"] = "absent";
 STUDENT_02.attendance["2026-09-19"] = "absent";
 STUDENT_06.attendance["2026-09-19"] = "absent";
 STUDENT_07.attendance["2026-09-19"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-21"] = "present";
+});
+STUDENT_01.attendance["2026-09-21"] = "absent";
+STUDENT_02.attendance["2026-09-21"] = "absent";
+STUDENT_06.attendance["2026-09-21"] = "absent";
+STUDENT_07.attendance["2026-09-21"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-22"] = "present";
+});
+STUDENT_01.attendance["2026-09-22"] = "absent";
+STUDENT_02.attendance["2026-09-22"] = "absent";
+STUDENT_06.attendance["2026-09-22"] = "absent";
+STUDENT_07.attendance["2026-09-22"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-23"] = "present";
+});
+STUDENT_01.attendance["2026-09-23"] = "absent";
+STUDENT_02.attendance["2026-09-23"] = "absent";
+STUDENT_06.attendance["2026-09-23"] = "absent";
+STUDENT_07.attendance["2026-09-23"] = "absent";
